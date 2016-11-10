@@ -4,6 +4,8 @@
 3. g++ 4.6.3 with -std=c++0x
 
 ### Data Structure
+Calculate and store this hash table in the memory.
+
 Hash Table:
 
                  Key            Value
@@ -25,9 +27,9 @@ Update the network for each new edge between user A and user B.
 
 * 2-degree: B is in 2nd-degree list of A.
 
-* 3-degree: 1st-degree list of B interects with 2nd-degree list of A.
+* 3-degree: 1st-degree list of B intersects with 2nd-degree list of A.
 
-* 4-degree: 2nd-degree list of B interects with 2nd-degree list of A.
+* 4-degree: 2nd-degree list of B intersects with 2nd-degree list of A.
 
 ### Execution Time
 Around 330-360 seconds. (Intel Core i5-3210M)
