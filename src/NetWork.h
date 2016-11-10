@@ -39,12 +39,10 @@ class NetWork{
         void antifraud(long ID1, long ID2, string* output);
         // Print friend lists of one ID.
         void getVertex(long ID);
-        // Print all user IDs in current network.
+        // Print current network.
         void print();
         // Is there a common user between two lists?
         bool hasCommonFriend(vector<long> left, vector<long> right);
-        // load data
-        // vector<transaction> load_data(string filename);
     private:
         // Hash map to store the network: <User ID, Friend Table of this user>
         unordered_map<long,Friend_Table> graph;

@@ -40,7 +40,7 @@ int NetWork::addEdge_multiple(string filename){
             //cout<<tran.time<<" "<<tran.sender<<" "<<tran.receiver<<" "<<tran.money<<" "<<tran.message<<endl;
             addEdge(tran.sender, tran.receiver); // Add this edge into the network.
         }
-        else if(tokens.size()>0){
+        else if(tokens.size()>0){ // Size of a blank line is 0.
             cout<<"Each transaction must contain these five parts: time, sender, receiver, money, message."<<endl;
             cout<<"This following record is not complete:"<<endl;
             for(int i=0; i<tokens.size(); i++) cout<<tokens[i]<<", ";
@@ -128,7 +128,7 @@ int NetWork::antifraud_multiple(string filename, string outputfile_name[4]){
                 if(tran.money>50.0) outputfile[3]<<"unverified\n";
                 else outputfile[3]<<"trusted\n";
             }
-        else if(tokens.size()>0){
+        else if(tokens.size()>0){  // Size of a blank line is 0.
             cout<<"Each transaction must contain these five parts: time, sender, receiver, money, message."<<endl;
             cout<<"This following record is not complete:"<<endl;
             for(int i=0; i<tokens.size(); i++) cout<<tokens[i]<<", ";
