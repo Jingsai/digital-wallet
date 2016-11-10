@@ -8,10 +8,6 @@
 #include "NetWork.h"
 using namespace std;
 
-// vector<transaction> NetWork::load_data(string filename){
-
-// }
-
 int NetWork::addEdge_multiple(string filename){
     ifstream file(filename);
     // Default extension of the file in run.sh is .txt.

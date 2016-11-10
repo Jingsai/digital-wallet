@@ -32,9 +32,13 @@ int main(int argc, char *argv[])
         return 0;
     }
 
+    //test
+    //network.getVertex(13238);
+    //network.print();
+
     clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-    //Uncomment this line to print the running time.
+    //Print time.
     cout<<"\nSuccess: Execution Time is "<<elapsed_secs<<endl;
 
     return 0;

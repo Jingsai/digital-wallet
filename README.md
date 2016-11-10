@@ -7,8 +7,8 @@
 1. In run.sh, use "main.exe" instead of "./main" if using windows.
 2. In run_tests.sh, use "diff -w" instead of "diff" to ignore different line endings between windows and linux.
 
-### New feaure
-It is reasonable to trigger a warning to the sender if the amount of money is greater than a certain value. This message should be like this:
+### New feature
+It is reasonable to trigger a warning for the sender if the amount of money is greater than a certain value. This message should be like this:
 * "unverified: The amount of money you want to send is too large. Are you sure you would like to proceed with this payment?"
 
 In this project, I set the maximum value without triggering this warning is 50.0 because 99th percentile of money in all transactions is around 49.0.
@@ -33,10 +33,10 @@ Hash Map:
 ### Algorithm
 Update the graph for each new edge between user A and user B as depicted below:
 
-             _____________new 2nd____________
-            |                      new 1st   |
-    1st-degree list of A  ---  A   --------   B   ---   1-st degree list of B
-                               |______________new 2nd__________________|
+             ________new 2nd friend_____________
+            |                    new 1st friend |
+    1st-degree list of A  ---  A  -----------   B   ---   1-st degree list of B
+                               |______________new 2nd friend_____________|
 
 
 Implement **Breadth-First Search (BFS) from two directions**: sender and receiver. So two 2nd-degree lists of two users are enough to decide if one is inside of 4th-degree list of another one. Follow the order of the following five conditional statements to decide if this transaction is "trusted" or "unverified".
@@ -53,8 +53,8 @@ Implement **Breadth-First Search (BFS) from two directions**: sender and receive
 
 
 ### Scalable Issue
-1. It is very easy to extend the above definition of adjacency list to include 3-rd friend list.
+1. It is very easy to extend the above definition of adjacency list to include 3rd-degree friend list.
 2. If user A has sent money to user B before, then a new transaction between them will not update the graph. Thus the size of this graph is predictable.
 
 ### Execution Time
-Around 6 minutes in total. (Intel Core i5-3210M)
+Around 6 minutes in total. (CPU: Intel Core i5-3210M)
