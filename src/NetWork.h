@@ -10,8 +10,8 @@ struct transaction{
     long sender;    // ID of user.
     long receiver;  // ID of user.
     string time;
-    string money;
-    string message;
+    float money;
+    //string message; // Ignore.
 };
 
 // Each user has one Friend_Table.
@@ -30,11 +30,11 @@ class NetWork{
         NetWork();
         ~NetWork();
         // Build a network based on a group of transactions imported from a file.
-        void addEdge_multiple(string filename);
+        int addEdge_multiple(string filename);
         // Update the network by one transaction.
         void addEdge(long ID1, long ID2);
         // Decide friend distances based on a group of transactions imported from a file.
-        void antifraud_multiple(string filename, string outputfile_name[3]);
+        int antifraud_multiple(string filename, string outputfile_name[4]);
         // Decide friend distance between one sender and one receiver.
         void antifraud(long ID1, long ID2, string* output);
         // Print friend lists of one ID.
@@ -43,6 +43,8 @@ class NetWork{
         void print();
         // Is there a common user between two lists?
         bool hasCommonFriend(vector<long> left, vector<long> right);
+        // load data
+        // vector<transaction> load_data(string filename);
     private:
         // Hash map to store the network: <User ID, Friend Table of this user>
         unordered_map<long,Friend_Table> graph;

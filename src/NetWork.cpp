@@ -1,14 +1,18 @@
 #include <unordered_map>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <vector>
 #include <algorithm>
 #include <string>
 #include "NetWork.h"
 using namespace std;
 
+// vector<transaction> NetWork::load_data(string filename){
 
-void NetWork::addEdge_multiple(string filename){
+// }
+
+int NetWork::addEdge_multiple(string filename){
     ifstream file(filename);
     // Default extension of the file in run.sh is .txt.
     // Change to .csv if the actual file extension is .csv.
@@ -18,21 +22,39 @@ void NetWork::addEdge_multiple(string filename){
         file.open(filename);
     }
 
+    cout<<"Begin to build the initial network..."<<endl;
     transaction tran;
-    string head;
-    string sender, receiver;
-    getline(file, head);
-    while(getline(file, tran.time, ',')){
-        getline(file, sender, ',');
-        tran.sender=stol(sender);  // Change to long format.
-        getline(file, receiver, ',');
-        tran.receiver=stol(receiver); // Change to long format.
-        getline(file, tran.money, ',');
-        getline(file, tran.message, '\n');
+    string strtran;
+    getline(file, strtran); //skip the head
+    while(getline(file, strtran, '\n')){
+        stringstream s(strtran);
+        string item;
+        vector<string> tokens;
+        while(getline(s,item,',')){
+            tokens.push_back(item);
+        }
 
-        addEdge(tran.sender, tran.receiver); // Add this edge into the network.
+        if(tokens.size()>4){
+            //tran.time=tokens[0];
+            tran.sender=stol(tokens[1]);  // Change to long format.
+            tran.receiver=stol(tokens[2]); // Change to long format.
+            //tran.money=stof(tokens[3]);
+            //tran.message=tokens[4];
+            //test code
+            //cout<<tran.time<<" "<<tran.sender<<" "<<tran.receiver<<" "<<tran.money<<" "<<tran.message<<endl;
+            addEdge(tran.sender, tran.receiver); // Add this edge into the network.
+        }
+        else if(tokens.size()>0){
+            cout<<"Each transaction must contain these five parts: time, sender, receiver, money, message."<<endl;
+            cout<<"This following record is not complete:"<<endl;
+            for(int i=0; i<tokens.size(); i++) cout<<tokens[i]<<", ";
+            cout<<endl;
+            return -1;
+        }
     }
     file.close();
+    cout<<"Done"<<endl;
+    return 0;
 }
 
 void NetWork::addEdge(long ID1, long ID2){
@@ -72,10 +94,10 @@ void NetWork::addEdge(long ID1, long ID2){
     }
 }
 
-void NetWork::antifraud_multiple(string filename, string outputfile_name[3]){
-    string output[3];
-    ofstream outputfile[3];
-    for(int i=0; i<3; i++)  outputfile[i].open(outputfile_name[i]);
+int NetWork::antifraud_multiple(string filename, string outputfile_name[4]){
+    string output[4];
+    ofstream outputfile[4];
+    for(int i=0; i<4; i++)  outputfile[i].open(outputfile_name[i]);
 
     // Default extension of the file in run.sh is .txt.
     // Change to .csv if the actual file extension is .csv.
@@ -86,23 +108,42 @@ void NetWork::antifraud_multiple(string filename, string outputfile_name[3]){
         file.open(filename);
     }
 
+    cout<<"Begin to monitor each transaction and update the network..."<<endl;
     transaction tran;
-    string head;
-    string sender, receiver;
-    getline(file, head);
-    while(getline(file, tran.time, ',')){
-        getline(file, sender, ',');
-        tran.sender=stol(sender);
-        getline(file, receiver, ',');
-        tran.receiver=stol(receiver);
-        getline(file, tran.money, ',');
-        getline(file, tran.message, '\n');
+    string strtran;
+    getline(file, strtran); //skip the head
+    while(getline(file, strtran, '\n')){
+        stringstream s(strtran);
+        string item;
+        vector<string> tokens;
+        while(getline(s,item,',')){
+            tokens.push_back(item);
+        }
 
-        antifraud(tran.sender, tran.receiver, output);
-        for(int i=0; i<3; i++)  outputfile[i]<<output[i]; // Write the values.
+        if(tokens.size()>4){
+                //tran.time=tokens[0];
+                tran.sender=stol(tokens[1]);  // Change to long format.
+                tran.receiver=stol(tokens[2]); // Change to long format.
+                tran.money=stof(tokens[3]);
+                //tran.message=tokens[4];
+
+                antifraud(tran.sender, tran.receiver, output);
+                for(int i=0; i<3; i++)  outputfile[i]<<output[i]; // Write the values.
+                if(tran.money>50.0) outputfile[3]<<"unverified\n";
+                else outputfile[3]<<"trusted\n";
+            }
+        else if(tokens.size()>0){
+            cout<<"Each transaction must contain these five parts: time, sender, receiver, money, message."<<endl;
+            cout<<"This following record is not complete:"<<endl;
+            for(int i=0; i<tokens.size(); i++) cout<<tokens[i]<<", ";
+            cout<<endl;
+            return -1;
+        }
     }
     file.close();
-    for(int i=0; i<3; i++)  outputfile[i].close();
+    for(int i=0; i<4; i++)  outputfile[i].close();
+    cout<<"Done"<<endl;
+    return 0;
 }
 
 void NetWork::antifraud(long ID1, long ID2, string* output){
