@@ -54,7 +54,9 @@ Implement **Breadth-First Search (BFS) from two directions**: sender and receive
 
 ### Scalable Issue
 1. It is very easy to extend the above definition of adjacency list to include 3rd-degree friend list.
-2. If user A has sent money to user B before, then a new transaction between them will not update the graph. Thus the size of this graph is predictable.
+2. Space Complexity: O(n*m^2), where n is the number of users and m is the average number of 1st-degree friend of one user.  
+3. Time Complexity: If user A has sent money to user B before, then a new transaction between them will not update the graph. Thus the size of this graph is predictable.
+4. Parallelization: Split transactions into mutiple groups.  
 
 ### Execution Time
 Around 6 minutes in total. (CPU: Intel Core i5-3210M)
